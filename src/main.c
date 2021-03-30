@@ -19,14 +19,12 @@ int main() {
     result = log(LOG_INFO, "%s", "hello");
     assert(result == 0);
     if (result != 0) {
-        lib_log_close();
         exit_program("lib log error");
     }
 
     result = log(LOG_CRIT, "%s", "bye");
     assert(result == 0);
     if (result != 0) {
-        lib_log_close();
         exit_program("lib log error");
     }
 

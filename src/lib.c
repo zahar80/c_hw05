@@ -57,23 +57,27 @@ int _log(enum log_level level, const char* filename, int line, const char* func,
 
     assert(msg_length >= 0 && msg_length < MAX_LOG_LENGTH);
     if (msg_length < 0 || msg_length >= MAX_LOG_LENGTH) {
+        lib_log_close();
         return 1;
     }
 
     int log_length = snprintf(log, MAX_LOG_LENGTH, "[%s][%s:%d:%s] %s\n", log_label(level), filename, line, func, msg);
     assert(log_length >= 0 && log_length < MAX_LOG_LENGTH) ;
     if (log_length < 0 || log_length >= MAX_LOG_LENGTH) {
+        lib_log_close();
         return 2;
     }
 
     assert(file);
     if (!file) {
+        lib_log_close();
         return 3;
     }
 
     size_t count = fwrite(log, sizeof(char), log_length, file);
     assert(count == log_length);
     if ((size_t)log_length != count) {
+        lib_log_close();
         return 4;
     }
 
